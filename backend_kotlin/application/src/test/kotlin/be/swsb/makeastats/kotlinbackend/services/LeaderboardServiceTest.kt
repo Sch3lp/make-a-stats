@@ -5,7 +5,9 @@ import be.swsb.makeastats.kotlinbackend.domain.playerstats.PlayerStats
 import be.swsb.makeastats.kotlinbackend.domain.leaderboard.LeaderboardRepo
 import be.swsb.makeastats.kotlinbackend.domain.leaderboard.LeaderboardTestBuilder
 import be.swsb.makeastats.kotlinbackend.domain.playerstats.PlayerStatsRepo
+import be.swsb.makeastats.kotlinbackend.pubgacl.acl.PlayerAcl
 import be.swsb.makeastats.kotlinbackend.test.JdbiPreparedEmbeddedPostgresKotlin
+import com.nhaarman.mockito_kotlin.mock
 import org.assertj.core.api.Assertions
 import org.jdbi.v3.sqlobject.kotlin.onDemand
 import org.jdbi.v3.testing.JdbiRule
@@ -19,6 +21,7 @@ class LeaderboardServiceTest {
     @Rule @JvmField
     val db: JdbiRule = JdbiPreparedEmbeddedPostgresKotlin.preparedJdbi().withPlugins()
 
+    private val playerAcl: PlayerAcl = mock()
     private lateinit var leaderboardRepo: LeaderboardRepo
     private lateinit var playerStatsRepo: PlayerStatsRepo
     private lateinit var leaderboardService: LeaderboardService
@@ -28,7 +31,7 @@ class LeaderboardServiceTest {
     fun setUp() {
         leaderboardRepo = db.jdbi.onDemand()
         playerStatsRepo = db.jdbi.onDemand()
-        playerStatsService = PlayerStatsService(playerStatsRepo)
+        playerStatsService = PlayerStatsService(playerStatsRepo, playerAcl)
         leaderboardService = LeaderboardService(leaderboardRepo, playerStatsRepo, playerStatsService)
     }
 

@@ -1,12 +1,14 @@
 package be.swsb.makeastats.kotlinbackend.pubgacl
 
 import be.swsb.makeastats.kotlinbackend.objectMapper
+import be.swsb.makeastats.kotlinbackend.pubgacl.pubg.MatchService
+import be.swsb.makeastats.kotlinbackend.pubgacl.pubg.PubgApiConfig
 import org.assertj.core.api.Assertions
 import org.junit.Test
 
 class MatchServiceTest {
 
-    val matchService: MatchService = MatchService(PubgApiConfig("http://localhost:3333/pubg-stub",""), objectMapper())
+    val matchService: MatchService = MatchService(PubgApiConfig("http://localhost:3333/pubg-stub", ""), objectMapper())
 
     @Test
     fun canCallAndMap() {

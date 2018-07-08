@@ -1,4 +1,4 @@
-package be.swsb.makeastats.kotlinbackend.pubgacl.model
+package be.swsb.makeastats.kotlinbackend.pubgacl.pubg.model
 
 data class Match(
         val type: String,

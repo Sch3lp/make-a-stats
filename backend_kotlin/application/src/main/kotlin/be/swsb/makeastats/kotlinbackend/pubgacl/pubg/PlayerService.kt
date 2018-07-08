@@ -1,7 +1,7 @@
-package be.swsb.makeastats.kotlinbackend.pubgacl
+package be.swsb.makeastats.kotlinbackend.pubgacl.pubg
 
-import be.swsb.makeastats.kotlinbackend.pubgacl.model.Player
-import be.swsb.makeastats.kotlinbackend.pubgacl.model.PubgApiWrapper
+import be.swsb.makeastats.kotlinbackend.pubgacl.pubg.model.Player
+import be.swsb.makeastats.kotlinbackend.pubgacl.pubg.model.PubgApiWrapper
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.github.kittinunf.fuel.Fuel

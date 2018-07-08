@@ -2,7 +2,6 @@ package be.swsb.makeastats.kotlinbackend.controllers
 
 import be.swsb.makeastats.kotlinbackend.controllers.util.ObjectMapperFactory
 import be.swsb.makeastats.kotlinbackend.domain.leaderboard.CreateLeaderBoardCmd
-import be.swsb.makeastats.kotlinbackend.domain.leaderboard.Leaderboard
 import be.swsb.makeastats.kotlinbackend.domain.leaderboard.LeaderboardWithPlayers
 import be.swsb.makeastats.kotlinbackend.services.LeaderboardService
 import com.nhaarman.mockito_kotlin.mock
