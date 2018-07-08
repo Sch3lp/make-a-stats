@@ -13,6 +13,11 @@ class PlayerStatsService(val playerStatsRepo: PlayerStatsRepo) {
         return playerStatsRepo.findByName(playerName)
     }
 
+    fun createIfNotExistsByName(playerNames: Set<String>): List<PlayerStats> {
+        return PlayerStats.fromPlayernames(playerNames)
+                .map(playerStatsRepo::insertIfNotExistsByName)
+    }
+
 }
 
 

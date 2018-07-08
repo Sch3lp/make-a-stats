@@ -22,16 +22,18 @@ class LeaderboardServiceTest {
     private lateinit var leaderboardRepo: LeaderboardRepo
     private lateinit var playerStatsRepo: PlayerStatsRepo
     private lateinit var leaderboardService: LeaderboardService
+    private lateinit var playerStatsService: PlayerStatsService
 
     @Before
     fun setUp() {
         leaderboardRepo = db.jdbi.onDemand()
         playerStatsRepo = db.jdbi.onDemand()
-        leaderboardService = LeaderboardService(leaderboardRepo, playerStatsRepo)
+        playerStatsService = PlayerStatsService(playerStatsRepo)
+        leaderboardService = LeaderboardService(leaderboardRepo, playerStatsRepo, playerStatsService)
     }
 
     @Test
-    fun handleLeaderboardCreation_CreatesPlayers_CreatesLeaderboard_StartsAsyncPubgCalls() {
+    fun handleLeaderboardCreation_CreatesPlayers_CreatesLeaderboard() {
         val leaderboard = leaderboardService.handle(CreateLeaderBoardCmd("ZF", setOf("womble", "cyanide")))!!
 
         val foundLeaderboard = leaderboardRepo.findByLeaderboardId(leaderboard.lid)
@@ -39,7 +41,6 @@ class LeaderboardServiceTest {
         Assertions.assertThat(playerStatsRepo.list().map(PlayerStats::player)).containsOnly("womble","cyanide")
         Assertions.assertThat(foundLeaderboard?.lid).isEqualTo(leaderboard.lid)
         Assertions.assertThat(foundLeaderboard?.name).isEqualTo("ZF")
-        //TODO verify pubg calls are made
     }
 
     @Test

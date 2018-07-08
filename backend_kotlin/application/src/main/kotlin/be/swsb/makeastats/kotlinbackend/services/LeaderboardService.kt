@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class LeaderboardService(val leaderboardRepo: LeaderboardRepo,
-                         val playerStatsRepo: PlayerStatsRepo) {
+                         val playerStatsRepo: PlayerStatsRepo,
+                         val playerStatsService: PlayerStatsService) {
 
     fun handle(cmd: CreateLeaderBoardCmd): LeaderboardWithPlayers? {
-        val playerIds = PlayerStats.fromPlayernames(cmd.playerNames)
-                .map(playerStatsRepo::insertIfNotExistsByName)
+        val playerIds = playerStatsService.createIfNotExistsByName(cmd.playerNames)
                 .map(PlayerStats::id)
         val leaderboard = Leaderboard(cmd)
         val persistedLeaderboard = leaderboardRepo.insertAndFind(leaderboard)
