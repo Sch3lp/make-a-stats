@@ -9,8 +9,6 @@ import java.util.*
 @Service
 class PlayerStatsService(val playerStatsRepo: PlayerStatsRepo) {
 
-    private val playerstats: MutableMap<PlayerName, PlayerStats?> = HashMap()
-
     fun getByName(playerName: String): PlayerStats? {
         return playerStatsRepo.findByName(playerName)
     }
