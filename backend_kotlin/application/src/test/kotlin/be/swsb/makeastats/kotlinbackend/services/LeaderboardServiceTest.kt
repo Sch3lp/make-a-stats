@@ -63,7 +63,6 @@ class LeaderboardServiceTest {
         val player2 = createAndPersistPlayerStats("cyanide")
 
         leaderboardRepo.addPlayersToLeaderboard(savedLeaderboard.lid, listOf(player1.id, player2.id))
-        val leaderboardWithPlayers = leaderboardRepo.findLeaderboardWithPlayersByLeaderboardId(savedLeaderboard.lid)
 
         val actual = leaderboardService.findLeaderboardWithPlayers(savedLeaderboard.lid)!!
 

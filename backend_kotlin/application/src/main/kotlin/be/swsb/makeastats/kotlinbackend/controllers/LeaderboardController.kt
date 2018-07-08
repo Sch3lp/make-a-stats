@@ -2,6 +2,7 @@ package be.swsb.makeastats.kotlinbackend.controllers
 
 import be.swsb.makeastats.kotlinbackend.domain.leaderboard.CreateLeaderBoardCmd
 import be.swsb.makeastats.kotlinbackend.domain.leaderboard.Leaderboard
+import be.swsb.makeastats.kotlinbackend.domain.leaderboard.LeaderboardWithPlayers
 import be.swsb.makeastats.kotlinbackend.services.LeaderboardService
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
@@ -13,8 +14,8 @@ import org.springframework.web.util.UriComponentsBuilder
 class LeaderboardController(val leaderboardService: LeaderboardService) {
 
     @GetMapping("{id}")
-    fun getLeaderboard(@PathVariable(value = "id", required = true) id: String): ResponseEntity<Leaderboard> {
-        return leaderboardService.getById(id)
+    fun getLeaderboard(@PathVariable(value = "id", required = true) id: String): ResponseEntity<LeaderboardWithPlayers> {
+        return leaderboardService.findLeaderboardWithPlayers(id)
                 ?. let { ResponseEntity.ok().body(it) }
                 ?: ResponseEntity.notFound().build()
     }

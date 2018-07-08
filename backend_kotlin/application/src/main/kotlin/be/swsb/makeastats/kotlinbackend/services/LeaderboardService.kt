@@ -9,18 +9,14 @@ import org.springframework.stereotype.Service
 class LeaderboardService(val leaderboardRepo: LeaderboardRepo,
                          val playerStatsRepo: PlayerStatsRepo) {
 
-    fun handle(cmd: CreateLeaderBoardCmd): Leaderboard? {
+    fun handle(cmd: CreateLeaderBoardCmd): LeaderboardWithPlayers? {
         val playerIds = PlayerStats.fromPlayernames(cmd.playerNames)
                 .map(playerStatsRepo::insertIfNotExistsByName)
                 .map(PlayerStats::id)
         val leaderboard = Leaderboard(cmd)
         val persistedLeaderboard = leaderboardRepo.insertAndFind(leaderboard)
         leaderboardRepo.addPlayersToLeaderboard(persistedLeaderboard.lid, playerIds)
-        return persistedLeaderboard
-    }
-
-    fun getById(lid: LeaderboardHashId): Leaderboard? {
-        return leaderboardRepo.findByLeaderboardId(lid)
+        return findLeaderboardWithPlayers(persistedLeaderboard.lid)
     }
 
     fun findLeaderboardWithPlayers(lid: LeaderboardHashId): LeaderboardWithPlayers? {
