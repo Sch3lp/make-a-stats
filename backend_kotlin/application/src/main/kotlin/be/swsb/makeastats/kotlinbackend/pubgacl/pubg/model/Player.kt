@@ -6,7 +6,10 @@ data class Player(
         val attributes: PlayerAttributes,
         val relationships: PlayerRelationships,
         val links: Links
-)
+){
+    val matchIds: List<String>
+        get() = this.relationships.matches.data.map { id }
+}
 
 data class PlayerAttributes(
         val name: String,
