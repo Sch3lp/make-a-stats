@@ -4,8 +4,10 @@ import be.swsb.makeastats.kotlinbackend.domain.leaderboard.*
 import be.swsb.makeastats.kotlinbackend.domain.playerstats.PlayerStats
 import be.swsb.makeastats.kotlinbackend.domain.playerstats.PlayerStatsRepo
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 class LeaderboardService(val leaderboardRepo: LeaderboardRepo,
                          val playerStatsRepo: PlayerStatsRepo,
                          val playerStatsService: PlayerStatsService) {
