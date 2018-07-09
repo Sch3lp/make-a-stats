@@ -6,10 +6,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FuelError
+import com.github.kittinunf.fuel.core.Request
+import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.core.ResponseDeserializable
-import com.github.kittinunf.fuel.rx.rx_object
 import com.github.kittinunf.result.Result
-import io.reactivex.Single
 import org.springframework.stereotype.Service
 import java.io.Reader
 
@@ -17,13 +17,15 @@ import java.io.Reader
 class PlayerService(val pubgApiConfig: PubgApiConfig,
                     val objectMapper: ObjectMapper) {
 
-    fun findPlayersByNames(playerNames: List<String>? = null): Single<Result<PubgApiWrapper<List<Player>>, FuelError>> {
+    fun findPlayersByNames(playerNames: List<String>? = null,
+                           handler: (Request, Response, Result<PubgApiWrapper<List<Player>>, FuelError>) -> Unit)
+            : Request {
         val queryParams:String = playerNameQuery(playerNames)
         return Fuel.get("${pubgApiConfig.baseUrl}/players${queryParams}")
                 .header(mapOf(
                 "Authorization" to "Bearer: ${pubgApiConfig.apiKey}",
                 "Accept" to "application/vnd.api+json"
-        )).rx_object(PlayerDeserializer(objectMapper))
+        )).responseObject(PlayerDeserializer(objectMapper), handler)
     }
 
     private fun playerNameQuery(playerNames: List<String>? = null): String {
